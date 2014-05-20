@@ -76,18 +76,17 @@ class Handler():
                 print "---end of request---"
                 #fix the crs code
                 soup = BeautifulSoup(r_text.text,"xml")
-                
+
+                get_caps = True
                 for get_req in soup.findAll("Get"):
-                    get_req.extract()
+                    if get_caps:
+                        get_caps = False
+                    else:
+                        get_req.extract()
                 
 
                 for env in soup.findAll("Envelope"):
                     env['srsName'] = "urn:ogc:def:crs:EPSG:6.5:4326" 
-                    
-                
-                text_file = open("/Users/rpsdev/ooi-extern/Output.html", "w")
-                text_file.write("%s" % str(soup))
-                text_file.close()
                 
                     
                 response_headers = [('Content-Type', 'application/xml; charset=utf-8')]
