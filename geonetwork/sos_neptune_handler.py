@@ -16,6 +16,7 @@ __author__ = "abird"
 
 class Handler():
     def __init__(self):
+
         logger = logging.getLogger('importer_service')
         hdlr = logging.FileHandler('importer_service.log')
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
@@ -41,7 +42,8 @@ class Handler():
     def get_caps(self):
         pass
 
-    def application(self,env, start_response):          
+    def application(self,env, start_response):
+
             request = env['PATH_INFO']       
             
             if request == '/':
@@ -51,6 +53,7 @@ class Handler():
                 start_response('404 Not Found', [('Content-Type', 'application/xml')])
                 return ["<h1>Not an sos service request</b>"]
             else:
+
                 print "query:" + env['QUERY_STRING']               
                 request = request[1:]
 
