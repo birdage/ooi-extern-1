@@ -59,13 +59,7 @@ class Handler():
 
                 print "request:"+request
                 split_request = request.split("&")
-                print "request:",split_request
-
-
-                request2 = env['QUERY_STRING']
-                if len(request2) > 1:
-                    request = request2
-
+                print "request:", split_request
 
                 output = ''         
                 #print "env:"+str(env)
