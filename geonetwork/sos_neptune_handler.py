@@ -42,10 +42,33 @@ class Handler():
     def get_caps(self):
         pass
 
-    def application(self,env, start_response):
+    def application(self, env, start_response):
 
-            request = env['PATH_INFO']       
-            
+            request = env['PATH_INFO']
+            request_query = env['QUERY_STRING']
+            print "request:"+request
+            print "query:"+request_query
+            if request == '/' and (len(request_query) > 2):
+                request = request_query
+                print "modifying request...."
+
+            #make sure the fields are lowers
+            params = request.split("&")
+            query_array =[]
+            for param in params:
+                create_query = ""
+                fields = param.split("=")
+                create_query+=fields[0].lower()
+                create_query+="="
+                create_query+=fields[1]
+                query_array.append(create_query)
+
+            request = "&".join(query_array)
+
+
+            if request == '/' and (len(request_query) > 2):
+                request = request_query
+
             if request == '/':
                 start_response('404 Not Found', [('Content-Type', 'application/xml')])
                 return ["<h1>Error<b>please add request information</b>"]
@@ -53,9 +76,10 @@ class Handler():
                 start_response('404 Not Found', [('Content-Type', 'application/xml')])
                 return ["<h1>Not an sos service request</b>"]
             else:
-
-                print "query:" + env['QUERY_STRING']               
-                request = request[1:]
+                if request.startswith("/?"):
+                    request = request[2:]
+                elif request.startswith("/"):
+                    request = request[1:]
 
                 print "request:"+request
                 split_request = request.split("&")
